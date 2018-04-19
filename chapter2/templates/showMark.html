@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %} Azson的留言区 {% endblock %}
+{% block headmessage %}
+    <h3 style="font-family: 楷体;">本站留言列表</h3>
+{% endblock %}
+
+{% block content %}
+    <form name="my form" action="?" method="get">
+        现在心情：<br/>
+        {% for m in moods %}
+            <input type="radio" name="mood" value="{{ m.status }}">{{ m.status }}
+        {% endfor %}
+        <br/>
+        心情留言板：<br/>
+        <textarea name="user_post" rows=3 cols=70></textarea><br/>
+        <label for="user_id">您的昵称：</label>
+        <input id="user_id" type="text" name="user_id">
+        <label for="user_pass">您的密码：</label>
+        <input id="user_pass" type="password" name="user_pass">
+        <input type="submit" value="张贴">
+        <input type="reset" value="清除内容">
+    </form>
+
+    {% if message %}
+        <div class="alert alert-warning">{{ message }}</div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" align=center>
+                    <h3>留言区~~</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for p in posts %}
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">★{{ p.nickname }}★ 觉得{{ p.mood }}</div>
+                <div class="panel-body">{{ p.message | linebreaks}}</div>
+                <div class="panel-footer" align="right"><i><small>{{ p.pub_time }}</small></i></div>
+            <span class="glyphicon glyphicon-trash" onclick="go_delete({{ p.id }})"></span>
+
+            </div>
+
+    {% endfor %}
+                <script>
+                function go_delete(id) {
+                    var user_pass = document.getElementById("user_pass").value;
+                    alert("确定删除？你输入的密码是： " + user_pass)
+                    if(user_pass != ""){
+                        var usr = "/mark/mark/" + id + "/" + user_pass;
+                        window.location = usr;
+                    }
+                    else {
+                        alert("请输入密码！")
+                    }
+                }
+            </script>
+{% endblock %}

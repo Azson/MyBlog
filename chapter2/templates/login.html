@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %} 我有话要说 {% endblock %}
+{% block content %}
+    <div class="container">
+
+        <form name="my form" action="/login" method="GET">
+            <label for="byear">出生年份：</label>
+            <select name="byear">
+                {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select><br/>
+
+            <label for="user_id">ID:</label>
+            <input id="user_id" type="text" name="user_id">
+            <label for="user_pass">Code:</label>
+            <input id="user_pass" type="password" name="user_pass">
+            <input type="submit" value="Login">
+            <input type="reset" value="Reset"><br/>
+
+            喜欢的颜色：
+            <input type="checkbox" name="fcolor" value="Green"> Green
+            <input type="checkbox" name="fcolor" value="Red"> Red
+            <input type="checkbox" name="fcolor" value="Blue"> Blue
+            <input type="checkbox" name="fcolor" value="Yellow"> Yellow<br/>
+        </form><br/>
+
+
+
+        你的账号: {{ urid | default:"未登录" }} <br/>
+        {% if verified == True %}
+            <em>登陆成功！</em><br/>
+            验证情况：
+            {{ verified }}<br/>
+            出生年份:
+            {{ birthYear }}<br/>
+            颜色爱好：
+            {% for c in urfcolor %}
+                {{ c }}
+                {% empty %}
+                    没有选择任何颜色
+            {% endfor %} <br/>
+        {% else %}
+            <em>登录失败！</em>
+        {% endif %}
+        <br/>
+
+
+    </div>
+{% endblock %}

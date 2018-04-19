@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}登录界面{% endblock %}
+{% block content %}
+    <div class="container">
+        {% if messages %}
+            <ul class="messages">
+                {% for msg in messages %}
+                <li {% if msg.tags %} class="msg.tags" {% endif %}>{{ msg }} </li>
+
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if message %}
+            <div class="alert alert-WARNING">{{ message }}</div>
+
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading" align=center>
+                        <h3>登录Azson的博客</h3>
+                    </div>
+                </div>
+                <form name="my form" action="." method="POST">
+                    {% csrf_token %}
+                    <table>
+                        {{ login_form.as_table }}
+                    </table>
+                    <input type="submit" value="登录"> <br />
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
