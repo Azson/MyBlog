@@ -1,7 +1,32 @@
 {% extends 'base.html' %}
 {% block title %} Problem {% endblock %}
+
 {% block headmessage %}
-    <h3 style="font-family: 楷体;">OnlineJudge!</h3>
+    <script type="text/javascript">
+    function funGo() {
+        var problemId = window.document.getElementById("problemId").value;
+        for (var i = problemId.length-1;i >= 0;i--) {
+            if(!(problemId[i] >= '0' && problemId[i] <= '9')) {
+                alert("请输入合法数字！")
+                break;
+            }
+        }
+        window.location.href="/showProblemPage/"+problemId + "/";
+    }
+</script>
+    <div class="row">
+        <div class="col-lg-6">
+            <h3 style="font-family: 楷体;">OnlineJudge!</h3>
+        </div>
+        <div class="col-lg-6">
+            <div class="input-group">
+              <input type="text" class="form-control" id="problemId" placeholder="快速定位题目编号...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="funGo()">Go!</button>
+              </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
 {% endblock %}
 
 {% block content %}
@@ -14,11 +39,29 @@
         </tr>
         {% for item in problems %}
             <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.title }}</td>
+                <td><a href="/showProblemPage/{{ item.id }}/" target="_blank">{{ item.id }}</a></td>
+                <td><a href="http://acm.hdu.edu.cn/showproblem.php?pid={{ item.id }}" target="_blank">{{ item.title }}</a></td>
                 <td>{{ item.accept_nums }}</td>
                 <td>{{ item.submisions_nums }}</td>
             </tr>
         {% endfor %}
     </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+              <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+        {% for index in problem_nums %}
+
+            <li><a href="/showProblem/{{ index }}/">{{ index }}</a></li>
+
+        {% endfor %}
+        <a href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+            </li>
+        </ul>
+    </nav>
 {% endblock %}

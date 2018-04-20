@@ -344,20 +344,37 @@ def showBlog(request):
     html = template.render(c)
     return HttpResponse(html)
 
-import MySQLdb
-def showProblem(request):
+#import MySQLdb
+def showProblem(request, page=0):
     if (request.user.is_authenticated()):
         username = request.user.username
     messages.get_messages(request)
-
+    page = int(page)
     #posts = Mark.objects.filter(enabled=True).order_by('-pub_time')[:30]
-    problems = Problem.objects.order_by('id')[:30]
+    problems = Problem.objects.order_by('id')[100*page:100 + 100*page]
+    problem_nums = range(int((len(Problem.objects.all())+99) /100))
     #problems = [12,2]
-    print(len(problems))
+    print("num is {}".format(problem_nums))
     template = get_template("showProblem.html")
     c = csrf(request)
     c.update(locals())
     html = template.render(c)
-    print("hello problem")
+    #print("hello problem")
     return HttpResponse(html)
 
+def showProblemPage(request, qusId=None):
+    if (request.user.is_authenticated()):
+        username = request.user.username
+    messages.get_messages(request)
+
+    item = Problem.objects.filter(id=qusId)
+    if(item is None or len(item) == 0):
+        return HttpResponse("<h1>无法找到你请求的页面</h1>")
+    item = item[0]
+    template = get_template("showProblemPage.html")
+    c = csrf(request)
+    c.update(locals())
+    html = template.render(c)
+    print("hello page")
+    print(item)
+    return HttpResponse(html)

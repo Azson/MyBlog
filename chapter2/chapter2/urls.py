@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from mainsite.views import homepage, showpost, login, showMark, contact, showMark2, login2, userinfo, logout, login3, showBlog, writeBlog, showProblem
+from mainsite.views import homepage, showpost, login, showMark, contact, showMark2, login2, userinfo, logout, login3, showBlog, writeBlog, showProblem, showProblemPage
 
 urlpatterns = [
     url(r'^$', homepage),
@@ -38,7 +38,8 @@ urlpatterns = [
     url(r'^userinfo/', userinfo),
     url(r'^admin/', admin.site.urls),
 
-    url(r'^showProblem/$', showProblem),
+    url(r'^showProblem/(\d+)/$', showProblem),
+    url(r'^showProblemPage/(\d+)/$', showProblemPage),
 
     url(r'', homepage),
 ]

@@ -7,18 +7,23 @@
 {% block content %}
     <form name="my form" action="?" method="get">
         现在心情：<br/>
-        {% for m in moods %}
-            <input type="radio" name="mood" value="{{ m.status }}">{{ m.status }}
-        {% endfor %}
+        <div class="radio">
+            {% for m in moods %}
+                <label>
+                    <input type="radio" name="mood" value="{{ m.status }}">
+                    {{ m.status }}
+                </label>
+            {% endfor %}
+        </div>
         <br/>
         心情留言板：<br/>
-        <textarea name="user_post" rows=3 cols=70></textarea><br/>
+        <textarea name="user_post" class="form-control" rows="3"></textarea><br/>
         <label for="user_id">您的昵称：</label>
         <input id="user_id" type="text" name="user_id">
         <label for="user_pass">您的密码：</label>
         <input id="user_pass" type="password" name="user_pass">
-        <input type="submit" value="张贴">
-        <input type="reset" value="清除内容">
+        <button type="submit" class="btn btn-info">张贴 </button>
+        <button type="reset" class="btn btn-link">清除内容</button>
     </form>
 
     {% if message %}
