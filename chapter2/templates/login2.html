@@ -3,18 +3,19 @@
 {% block content %}
     <div class="container">
         {% if messages %}
+            <!--
             <ul class="messages">
                 {% for msg in messages %}
                 <li {% if msg.tags %} class="msg.tags" {% endif %}>{{ msg }} </li>
 
                 {% endfor %}
-            </ul>
-        {% endif %}
 
-        {% if message %}
-            <div class="alert alert-WARNING">{{ message }}</div>
-
+            </ul> -->
         {% endif %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -24,10 +25,19 @@
                 </div>
                 <form name="my form" action="." method="POST">
                     {% csrf_token %}
-                    <table>
+                    <div class="form-group">
+                        <label for="user_name">{{ login_form.user_name.label }}</label>
+                        {{ login_form.user_name }}
+
+                    </div>
+                    <div class="form-group">
+                        <label for="password">{{ login_form.password.label }}</label>
+                        {{ login_form.password }}
+                    </div>
+                    <!-- <table>
                         {{ login_form.as_table }}
-                    </table>
-                    <input type="submit" value="登录"> <br />
+                    </table> -->
+                    <input type="submit" value="登录" class="btn btn-default"> <br />
                 </form>
             </div>
         </div>

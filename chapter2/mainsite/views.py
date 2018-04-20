@@ -256,7 +256,7 @@ def login3(request):
 
     else:
         login_form = forms.LoginForm()
-
+    #login_form.user_name.label
     template = get_template("login2.html")
     c = csrf(request)
     c.update(locals())
