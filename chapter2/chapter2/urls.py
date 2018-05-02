@@ -19,20 +19,18 @@ from django.contrib import admin
 from mainsite.views import homepage, showpost, login, showMark, contact, showMark2, login2, userinfo, logout, login3, showBlog, writeBlog, showProblem, showProblemPage
 
 urlpatterns = [
-    url(r'^$', homepage),
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^captcha/', include("captcha.urls")),
     url(r'^mark/$', showMark),
     url(r'post02/$', showMark2),
     url(r'^contact/$', contact),
     url(r'^mark/mark/(\d+)/(\w+)$', showMark),
     url(r'^login/', login3),
-    url(r'^login/', login),
+    url(r'^login2/', login2),
     url(r'^logout/', logout),
 
     url(r'showBlog/', showBlog),
     url(r'writeBlog/', writeBlog),
-
-    url(r'^accounts/', include('registration.backends.hmac.urls')),
 
     url(r'^post/(\w+)$', showpost),
     url(r'^userinfo/', userinfo),
@@ -41,5 +39,6 @@ urlpatterns = [
     url(r'^showProblem/(\d+)/$', showProblem),
     url(r'^showProblemPage/(\d+)/$', showProblemPage),
 
+    url(r'^([\s\S.]+)$', homepage),
     url(r'', homepage),
 ]

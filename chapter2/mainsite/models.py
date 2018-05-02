@@ -43,7 +43,8 @@ class User(models.Model):
         return self.name
 
 class MyUser(models.Model):
-    user = models.OneToOneField(SysUser, on_delete=models.CASCADE)
+    from django.contrib.auth.models import User as authUser
+    user = models.OneToOneField(authUser, on_delete=models.CASCADE)
     height = models.PositiveIntegerField(default=160)
     male = models.BooleanField(default=False)
     website = models.URLField(null=True)

@@ -16,12 +16,13 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-def homepage(request, pid=None, del_pass=None):
+def homepage(request, res=None, pid=None, del_pass=None):
     #use follow when login is by session
     #if("username" in request.session):
-    #    username = request.session['username']
-     #   useremail = request.session['useremail']
-
+     #   username = request.session['username']
+      #  useremail = request.session['useremail']
+    if(res is not None):
+        return redirect('/')
     #login by auth
     #username = "tmp"
     if(request.user.is_authenticated()):
@@ -284,16 +285,32 @@ def userinfo(request):
         print("username is {0}".format(username))
     else:
         return redirect("/")
+    from django.contrib.auth.models import User as authUser
+    user = authUser.objects.get(username=username)
+    #user = User.objects.get(name=username)
     try:
         #userinfo1 = auth.get_user_model().objects.get(username=username)#User.objects.get(name=username)
-        user = auth.get_user_model().objects.get(username=username)
-        userinfo1 = MyUser.objects.get(user=user)
+        #user = auth.get_user_model().objects.get(username=username)
+        #userinfo1 = MyUser.objects.get(user=user)
+        profile = MyUser.objects.get(user=user)
     except:
+        profile = MyUser(user=user)
         print("userinfo is exception")
         pass
-    print("{0}  ,,,  info {1}".format(username, userinfo1.user.username))
+    if(request.method == 'POST'):
+        profile_form = forms.ProfileForm(request.POST, instance=profile)
+        if(profile_form.is_valid()):
+            messages.add_message(request, messages.INFO, "个人资料更新成功！")
+            profile_form.save()
+            return HttpResponseRedirect('/userinfo/')
+        else:
+            messages.add_message(request, messages.INFO, "请确定每个字段都填写完成")
+    else:
+        profile_form = forms.ProfileForm()
     template = get_template("userinfo.html")
-    html = template.render(locals())
+    c = csrf(request)
+    c.update(locals())
+    html = template.render(c)
     return HttpResponse(html)
 
 def writeBlog(request):

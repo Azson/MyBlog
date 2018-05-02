@@ -64,3 +64,14 @@ class DiaryForm(forms.ModelForm):
         self.fields['weight'].label = "今日体重（KG)"
         self.fields['note'].label = "心情留言"
         self.fields['ddate'].label = "日期"
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = models.MyUser
+        fields = ['height', 'male', 'website']
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['height'].label = '身高(cm)'
+        self.fields['male'].label = '是男生吗？'
+        self.fields['website'].label = '个人网站(标明https://)'
