@@ -129,19 +129,20 @@ USE_TZ = True
 DEFAULT_FROM_EMAIL = '18390208501@163.com'
 ACCOUNT_ACTIVATION_DAYS = 1
 # 配置邮箱发邮件的相关功能
+
 #这一项是固定的
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'#'django.core.mail.backends.smtp.EmailBackend'
 # smtp服务的邮箱服务器 我用的是163
 EMAIL_HOST = 'smtp.163.com'
 # smtp服务固定的端口是25
-EMAIL_PORT = 25
+EMAIL_PORT = 465
 #发送邮件的邮箱
 EMAIL_HOST_USER = '18390208501@163.com'
 #在邮箱中设置的客户端授权密码
 EMAIL_HOST_PASSWORD = 'jay240326315'
 #收件人看到的发件人 <此处要和发送邮件的邮箱相同>
 EMAIL_FROM = '18390208501@163.com'
-
+EMAIL_USE_SSL = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
