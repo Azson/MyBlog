@@ -29,6 +29,9 @@ def homepage(request, res=None, pid=None, del_pass=None):
         username = request.user.username
     #print("username is {0}".format(username))
     mymsg = messages.get_messages(request)
+    #print("mymsg")
+    #for item in mymsg:
+    #    print(item)
     template = get_template('index.html')
     posts = Post.objects.all()
     now = datetime.now()
@@ -132,6 +135,7 @@ def contact(request):
         form = forms.ContactForm(request.POST)
         if(form.is_valid()):
             message = "感谢您的来信"
+            messages.add_message(request, messages.SUCCESS, "感谢您的来信")
             user_name = form.cleaned_data["user_name"]
             user_city = form.cleaned_data["user_city"]
             user_school = form.cleaned_data["user_school"]
@@ -146,11 +150,13 @@ def contact(request):
             sendEmail.EmailClass.sendEmail(mailbody, user_email)
         else:
             message = "请检查您输入的信息是否正确！"
+            messages.add_message(request, messages.ERROR, "请检查您输入的信息是否正确！")
     else:
         form = forms.ContactForm()
         message = "请填写下列信息 ~"
+        messages.add_message(request, messages.INFO, "请填写下列信息 ~")
     template = get_template("contact.html")
-
+    mymsg = messages.get_messages(request)
     #request_context = RequestContext(request)
     #request_context.push(locals())
     #print(type(request_context))
@@ -170,9 +176,11 @@ def showMark2(request):
         post_form = forms.PostForm(request.POST)
         if(post_form.is_valid()):
             message = "信息存储成功，待管理员审核通过后即可显示！"
+            messages.add_message(request, messages.SUCCESS, "信息存储成功，待管理员审核通过后即可显示！")
             post_form.save()
         else:
             message = "请确保您的每个信息都填了，并且验证码正确！"
+            messages.add_message(request, messages.SUCCESS, "请确保您的每个信息都填了，并且验证码正确！")
         if (request.session.test_cookie_worked()):
             request.session.delete_test_cookie()
             message = "cookie is ok!"
@@ -182,15 +190,18 @@ def showMark2(request):
         post_form = forms.PostForm()
     template = get_template("post2db.html")
 
+
+    '''
     request.session['test'] = "abcd"
     if(request.session['test'] != "abcd"):
         message = "fail"
     else:
         message = "succuss"
+    '''
     moods = Mood.objects.all()
     #request
 
-
+    mymsg = messages.get_messages(request)
     c = csrf(request)
     c.update(locals())
 
@@ -226,7 +237,7 @@ def login2(request):
             messages.add_message(request, messages.INFO, "登录失败,请检测各字段数据是否合法！")
     else:
         login_form = forms.LoginForm()
-
+    mymsg = messages.get_messages(request)
     template = get_template("login2.html")
     c = csrf(request)
     c.update(locals())
@@ -258,6 +269,7 @@ def login3(request):
     else:
         login_form = forms.LoginForm()
     #login_form.user_name.label
+    mymsg = messages.get_messages(request)
     template = get_template("login2.html")
     c = csrf(request)
     c.update(locals())
@@ -307,6 +319,7 @@ def userinfo(request):
             messages.add_message(request, messages.INFO, "请确定每个字段都填写完成")
     else:
         profile_form = forms.ProfileForm()
+    mymsg = messages.get_messages(request)
     template = get_template("userinfo.html")
     c = csrf(request)
     c.update(locals())
@@ -334,6 +347,7 @@ def writeBlog(request):
         post_form = forms.DiaryForm()
         messages.add_message(request, messages.INFO, "请检查每个字段是否都已填写")
 
+    mymsg = messages.get_messages(request)
     template = get_template("writeDiary.html")
     c = csrf(request)
     c.update(locals())
@@ -382,7 +396,7 @@ def showProblem(request, page=0):
 def showProblemPage(request, qusId=None):
     if (request.user.is_authenticated()):
         username = request.user.username
-    messages.get_messages(request)
+    mymsg = messages.get_messages(request)
 
     item = Problem.objects.filter(id=qusId)
     if(item is None or len(item) == 0):

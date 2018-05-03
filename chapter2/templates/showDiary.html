@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block title %}我的日志{% endblock %}
 {% block content %}
+    <script type="text/javascript">
+
+    </script>
     <div class="container">
         {% if messages %}
             <ul class="messages">
@@ -28,8 +31,9 @@
                         <div class="panel-heading" align=center>
                             {{ diary.ddate }}
                         </div>
-                        <div class="panel-body">
-                            {{ diary.note | linebreaks }}
+                        <div style="word-wrap: break-word;word-break: break-all;" class="panel-body">
+                            {{ diary.note | linebreaks}}
+
                         </div>
                         <div class="panel-footer">
                             今日花费:{{ diary.budget }}元, 体重：{{ diary.weight }} 公斤

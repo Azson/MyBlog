@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
 ]
 
 ROOT_URLCONF = 'chapter2.urls'
@@ -87,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ojquestion', #数据库名字，
         'USER': 'root', #数据库登录用户名
-        'PASSWORD': '240326315', #数据库登录密码,我自己修改了
+        'PASSWORD': '', #数据库登录密码,我自己修改了
         'HOST': '127.0.0.1', #数据库所在主机（公司中写真实主机地址）
         'PORT': '3306', #数据库端口
     }
@@ -126,6 +128,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+ADMINS = (
+    ('adminErrorMail', '240326315@qq.com'),
+)
 DEFAULT_FROM_EMAIL = '18390208501@163.com'
 ACCOUNT_ACTIVATION_DAYS = 1
 # 配置邮箱发邮件的相关功能
@@ -139,7 +144,7 @@ EMAIL_PORT = 465
 #发送邮件的邮箱
 EMAIL_HOST_USER = '18390208501@163.com'
 #在邮箱中设置的客户端授权密码
-EMAIL_HOST_PASSWORD = 'jay240326315'
+EMAIL_HOST_PASSWORD = ''
 #收件人看到的发件人 <此处要和发送邮件的邮箱相同>
 EMAIL_FROM = '18390208501@163.com'
 EMAIL_USE_SSL = True

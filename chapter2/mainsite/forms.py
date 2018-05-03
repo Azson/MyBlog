@@ -24,6 +24,11 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = models.Mark
         fields = ['mood', 'nickname', 'message', 'del_pass']
+        widgets = {
+            'message':forms.Textarea(attrs={'id':'message', 'placeholder':'内容长度最大5000', 'class':'form-control'}),
+            'del_pass':forms.PasswordInput(attrs={'maxlength':'12', 'placeholder':'设置12位密码', 'class':'form-control'}),
+            'nickname':forms.TextInput(attrs={'class':'form-control'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)
@@ -31,7 +36,7 @@ class PostForm(forms.ModelForm):
         self.fields['nickname'].label = "您的昵称"
         self.fields['message'].label = "心情留言"
         self.fields['del_pass'].label = "设置密码"
-        self.fields['captcha'].label = "验证码："
+        self.fields['captcha'].label = "验证码"
 
 class LoginForm(forms.Form):
     CORLORS = [
@@ -55,7 +60,7 @@ class DiaryForm(forms.ModelForm):
         fields = ['budget', 'weight', 'note', 'ddate']
         widgets = {
             'ddate': forms.DateInput(attrs={'type':'date'}),
-            'note': forms.Textarea(attrs={'class':"form-control", 'rows':"20"})
+            'note': forms.Textarea(attrs={'class':"form-control", 'rows':"20", 'id':'note'})
         }
 
     def __init__(self, *args, **kwargs):

@@ -4,7 +4,7 @@
     <div class="container">
         {% if messages %}
             <ul class="messages">
-                {% for msg in messages %}
+                {% for msg in mymsg %}
                 <li {% if msg.tags %} class="msg.tags" {% endif %}>{{ msg }} </li>
 
                 {% endfor %}
@@ -19,5 +19,19 @@
             <input type="submit" value="张贴" class="btn btn-primary"> <br/>
             <input type="reset" value="清除重写" class="btn btn-warning">
         </form>
+        <script type="text/javascript">
+            $('#note').bind('input propertychange',function(){ //添加监听input值的改变事件
+            var tvalmum;
+             //统计input输入字段的长度
+            tvalnum = $(this).val().length;
+           //如果大于8个字直接进行字符串截取
+            if(tvalnum>5000){
+                 var tval = $(this).val();
+                 tval = tval.substring(0,5000);
+                 $(this).val(tval);
+                 alert('内容长度不得超过5000！');
+            }
+        });
+        </script>
     </div>
 {% endblock %}

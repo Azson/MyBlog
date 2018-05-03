@@ -17,7 +17,7 @@
         </div>
         <br/>
         心情留言板：<br/>
-        <textarea name="user_post" class="form-control" rows="3"></textarea><br/>
+        <textarea id="user_post" name="user_post" class="form-control" rows="3" placeholder="内容长度不超过5000"></textarea><br/>
         <label for="user_id">您的昵称：</label>
         <input id="user_id" type="text" name="user_id">
         <label for="user_pass">您的密码：</label>
@@ -25,7 +25,20 @@
         <button type="submit" class="btn btn-info">张贴 </button>
         <button type="reset" class="btn btn-link">清除内容</button>
     </form>
-
+    <script type="text/javascript">
+            $('#user_post').bind('input propertychange',function(){ //添加监听input值的改变事件
+            var tvalmum;
+             //统计input输入字段的长度
+            tvalnum = $(this).val().length;
+           //如果大于8个字直接进行字符串截取
+            if(tvalnum>5000){
+                 var tval = $(this).val();
+                 tval = tval.substring(0,5000);
+                 $(this).val(tval);
+                 alert('内容长度不得超过5000！');
+            }
+        });
+    </script>
     {% if message %}
         <div class="alert alert-warning">{{ message }}</div>
     {% endif %}

@@ -3,17 +3,12 @@
 
 
 {% block content %}
-
+    {% for message in mymsg %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
 
     <div class="container">
-        {% if message %}
-            <div class="alert alert-warning">{{ message }}</div>
-            {{ user_name }} <br />
-            {{ user_city }} <br />
-            {{ user_school }} <br />
-            {{ user_email }} <br />
-            {{ user_message | linebreaks }} <br />
-        {% endif %}
+
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <form name="my form" action="." method="POST">
@@ -26,7 +21,8 @@
             </div>
             <div class="panel-footer">
 
-                <input type="submit" value="提交" onclick="fun1()">
+                <button type="submit" class="btn btn-default btn-lg" onclick="fun1()">提交</button>
+
                 </form>
             </div>
         </div>
