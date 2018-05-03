@@ -8,7 +8,7 @@
         <h1>{{ item.title }}</h1> <hr>
 
         <h3>Problem</h3>
-        {{ item.context }}<hr>
+        {{ item.context | safe }}<hr>
 
         <h3>Input</h3>
         {{ item.Input }}<hr>

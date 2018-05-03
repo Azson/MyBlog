@@ -171,6 +171,8 @@ def contact(request):
     #return render_to_response("contact.html", context=c)
 
 def showMark2(request):
+    if (request.user.is_authenticated()):
+        username = request.user.username
     message = "如果要发布您的心情，请填写每一个字段！"
     if(request.method == "POST"):
         post_form = forms.PostForm(request.POST)
@@ -393,6 +395,7 @@ def showProblem(request, page=0):
     #print("hello problem")
     return HttpResponse(html)
 
+from mainsite.func.showHduPic import fix_the_picpath
 def showProblemPage(request, qusId=None):
     if (request.user.is_authenticated()):
         username = request.user.username
@@ -402,10 +405,21 @@ def showProblemPage(request, qusId=None):
     if(item is None or len(item) == 0):
         return HttpResponse("<h1>无法找到你请求的页面</h1>")
     item = item[0]
+    item = fix_the_picpath(item)
+    '''
+    print(type(item.context))
+    results_set =  re.match('[\s\S.]+src="([\s\S.]+)"', item.context)
+    if(results_set is not None):
+        for it in results_set.groups():
+            if(item.context.find("http") == -1):
+                item.context = item.context.replace(it, 'http://acm.hdu.edu.cn' + str(it))
+                print("find it \n" + item.context)
+    else:
+        print("no match set")
+    '''
+
     template = get_template("showProblemPage.html")
     c = csrf(request)
     c.update(locals())
     html = template.render(c)
-    print("hello page")
-    print(item)
     return HttpResponse(html)
