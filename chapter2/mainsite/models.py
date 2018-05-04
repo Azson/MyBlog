@@ -75,3 +75,11 @@ class Problem(models.Model):
     author = models.CharField(max_length=255)
     recommend = models.CharField(max_length=255)
     lmit = models.CharField(max_length=255)
+
+from ckeditor.fields import RichTextField
+class Blog1(models.Model):
+    title = models.CharField(max_length=50, verbose_name="标题")
+    content = RichTextField(blank=True, null=True, verbose_name="内容")
+
+    def __str__(self):
+        return self.title

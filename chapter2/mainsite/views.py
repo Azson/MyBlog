@@ -423,3 +423,31 @@ def showProblemPage(request, qusId=None):
     c.update(locals())
     html = template.render(c)
     return HttpResponse(html)
+
+import time
+from .func.encode import get_md5
+def writePost(request):
+    mymsg = messages.get_messages(request)
+    if(request.method == 'POST'):
+        try:
+            new_post = Post()
+            new_post.title = request.POST['title']
+            new_post.body = request.POST['editor1']
+            #new_post.pub_date = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+            suffix = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+            new_post.slug = get_md5(new_post.title + str(suffix))#+str(new_post.pub_date))
+
+            new_post.save()
+            messages.add_message(request, messages.INFO, "发表成功！")
+            return HttpResponseRedirect("/")
+        except Exception as e:
+            messages.add_message(request, messages.ERROR, "发表失败，请联系管理员！")
+        #print("post request")
+        #print(new_post.pub_date, new_post.slug)
+    #my_form = forms.WirtePostForm()
+
+    template = get_template("writePost.html")
+    c = csrf(request)
+    c.update(locals())
+    html = template.render(c)
+    return HttpResponse(html)

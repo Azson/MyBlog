@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %} 发表文章 {% endblock %}
+{% block headmessage %}
+    <h3 style="font-family: 楷体;">写下您的文章</h3>
+    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/10.0.0/classic/ckeditor.js"></script> -->
+    <script src="//cdn.ckeditor.com/4.5.9/standard/ckeditor.js"></script> <!-- 4.5.9-->
+{% endblock %}
+
+{% block content %}
+    {% for message in mymsg %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    <form method="post">
+        {% csrf_token %}
+        标题:<input type="text" name="title"> <hr/>
+        正文：<textarea name="editor1"></textarea>
+        <script>
+            CKEDITOR.replace( 'editor1' , {uiColor: '#ffffff',
+                    language : 'zh-cn',
+                    filebrowserImageUploadUrl : '/uploader/uploads',
+            });
+            <!-- 9AB8F3 eff6ec-->
+        </script>
+        <button type="submit" value="提交" class="btn btn-default btn-lg">提交帖子</button>
+    </form>
+{% endblock %}
+<!-- filebrowserImageUploadUrl : '${ctx}/uploadImg/uploadImg',
+                        , -->

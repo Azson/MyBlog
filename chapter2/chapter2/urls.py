@@ -16,9 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from mainsite.views import homepage, showpost, login, showMark, contact, showMark2, login2, userinfo, logout, login3, showBlog, writeBlog, showProblem, showProblemPage
+from mainsite.views import homepage, showpost, login, showMark, contact, showMark2, login2, userinfo, logout, login3, showBlog, writeBlog, showProblem, showProblemPage, writePost
+
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
+    url(r'ckeditor', include('ckeditor_uploader.urls')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^captcha/', include("captcha.urls")),
     url(r'^mark/$', showMark),
@@ -33,12 +37,15 @@ urlpatterns = [
     url(r'writeBlog/', writeBlog),
 
     url(r'^post/(\w+)$', showpost),
+    url(r'^writePost/', writePost),
     url(r'^userinfo/', userinfo),
     url(r'^admin/', admin.site.urls),
 
     url(r'^showProblem/(\d+)/$', showProblem),
     url(r'^showProblemPage/(\d+)/$', showProblemPage),
 
+    #url(r'^upload/(?P<path>(\S)*)','django.views.static.serve',{'document_root':BASE_DIR+'\upload'})
+
     url(r'^([\s\S.]+)$', homepage),
     url(r'', homepage),
-]
+]# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
